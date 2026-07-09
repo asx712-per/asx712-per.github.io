@@ -109,16 +109,40 @@
   @media(max-width:640px){.row{grid-template-columns:1fr;gap:10px;}}
 
   /* PROJECTS */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
-  .card{background:#fff;padding:34px;transition:background .2s;}
-  .card:hover{background:#0a0a0a;color:#fff;}
-  .card:hover .metric,.card:hover .card-tag{color:#fff;border-color:#fff;}
-  .card:hover p{color:#cfcfcf;}
-  .metric{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1;}
-  .card h3{font-size:18px;font-weight:600;margin:14px 0 10px;}
-  .card p{color:#555;font-size:15px;}
-  .card-tag{display:inline-block;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-strong);padding:5px 9px;color:var(--muted);}
-  @media(max-width:640px){.cards{grid-template-columns:1fr;}}
+  .project{
+    display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+    padding:64px 0;border-top:1px solid var(--line);
+  }
+  .project:nth-child(even) .p-media{order:2;}
+  .project .p-media{display:flex;flex-direction:column;gap:10px;}
+  .project .p-main{position:relative;overflow:hidden;border:1px solid var(--line-strong);aspect-ratio:4/3;}
+  .project .p-main img{
+    width:100%;height:100%;object-fit:cover;display:block;
+    filter:grayscale(100%) contrast(1.02);transition:filter .4s,transform .6s;
+  }
+  .project:hover .p-main img{filter:grayscale(0%);transform:scale(1.03);}
+  .p-thumbs{display:flex;gap:10px;}
+  .p-thumbs .thumb{
+    flex:1;aspect-ratio:4/3;border:1px solid var(--line);background:none;padding:0;
+    cursor:pointer;overflow:hidden;transition:border-color .2s;
+  }
+  .p-thumbs .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);transition:filter .3s;}
+  .p-thumbs .thumb:hover img{filter:grayscale(0%);}
+  .p-thumbs .thumb.is-active{border-color:var(--line-strong);border-width:2px;}
+  .project .p-metric{font-size:54px;font-weight:600;letter-spacing:-.03em;line-height:1;}
+  .project h3{font-size:24px;font-weight:600;letter-spacing:-.01em;margin:8px 0 16px;}
+  .project p{color:#333;font-size:16px;max-width:46ch;}
+  .project .p-detail{margin-top:16px;padding-left:0;list-style:none;}
+  .project .p-detail li{
+    color:#555;font-size:14.5px;padding-left:18px;position:relative;margin-bottom:6px;
+  }
+  .project .p-detail li::before{content:"—";position:absolute;left:0;color:var(--muted);}
+  .project .p-tags{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px;}
+  .p-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-strong);padding:5px 9px;color:var(--muted);}
+  @media(max-width:760px){
+    .project{grid-template-columns:1fr;gap:24px;padding:44px 0;}
+    .project:nth-child(even) .p-media{order:0;}
+  }
 
   /* SKILLS */
   .skill-block{padding:26px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:220px 1fr;gap:32px;}
@@ -288,30 +312,76 @@
 <section id="projects">
   <div class="wrap">
     <div class="sec-head"><span class="idx">03</span><h2>Selected Work</h2></div>
-    <div class="cards">
-      <div class="card">
-        <div class="metric">50%</div>
+
+    <div class="project">
+      <div class="p-media" data-folder="images/gnn">
+        <div class="p-main"><img src="images/gnn/01.jpg" alt="GNN Surrogate for FEM" /></div>
+        <div class="p-thumbs"></div>
+      </div>
+      <div class="p-body">
+        <div class="p-metric">50%</div>
         <h3>GNN Surrogate for FEM</h3>
-        <p>Graph neural network in PyTorch/DGL predicting structural displacements in porous media — halved simulation runtime with near-zero accuracy loss.</p>
-        <span class="card-tag">PyTorch · DGL · FEM</span>
+        <p>Traditional FEM solves for displacement in porous media are accurate but slow, which bottlenecks design iteration. I trained a graph neural network to learn the mapping from mesh geometry straight to displacement fields, reproducing solver results in a fraction of the time.</p>
+        <ul class="p-detail">
+          <li>Built in PyTorch and DGL on polyurethane-foam FEM datasets under dynamic loading</li>
+          <li>50% runtime reduction with near-zero accuracy loss</li>
+          <li>Automated data pipeline for training and validation</li>
+        </ul>
+        <div class="p-tags"><span class="p-tag">PyTorch</span><span class="p-tag">DGL</span><span class="p-tag">FEM</span></div>
       </div>
-      <div class="card">
-        <div class="metric">40%</div>
+    </div>
+
+    <div class="project">
+      <div class="p-media" data-folder="images/geothermal">
+        <div class="p-main"><img src="images/geothermal/01.jpg" alt="Geothermal data-center cooling" /></div>
+        <div class="p-thumbs"></div>
+      </div>
+      <div class="p-body">
+        <div class="p-metric">40%</div>
         <h3>Geothermal Data-Center Cooling</h3>
-        <p>Grid-independent green cooling schematic for large-scale data centers — 40% lower energy consumption than conventional CRAC systems.</p>
-        <span class="card-tag">Thermal · CFD · Energy</span>
+        <p>Data centers burn enormous energy on cooling. I designed a grid-independent geothermal cooling schematic as an alternative to conventional CRAC systems, running full thermal and economic analysis to prove it works at scale.</p>
+        <ul class="p-detail">
+          <li>40% lower energy consumption vs. conventional CRAC</li>
+          <li>25% lower prototype deployment cost</li>
+          <li>Complete cost breakdown and long-term profitability model</li>
+        </ul>
+        <div class="p-tags"><span class="p-tag">Thermal</span><span class="p-tag">CFD</span><span class="p-tag">Energy</span></div>
       </div>
-      <div class="card">
-        <div class="metric">25%</div>
+    </div>
+
+    <div class="project">
+      <div class="p-media" data-folder="images/bearing">
+        <div class="p-main"><img src="images/bearing/01.jpg" alt="Journal bearing risk framework" /></div>
+        <div class="p-thumbs"></div>
+      </div>
+      <div class="p-body">
+        <div class="p-metric">25%</div>
         <h3>Journal Bearing Risk Framework</h3>
-        <p>Predictive risk-factor model under thermo-mechanical stress and mixed lubrication, with live TMP117 telemetry — 25% reliability gain.</p>
-        <span class="card-tag">FEM · Tribology · Sensors</span>
+        <p>Journal bearings fail unpredictably under combined thermal and lubrication stress. I built a predictive risk-factor framework backed by FEM thermal and multi-body simulation, then validated it against live temperature telemetry.</p>
+        <ul class="p-detail">
+          <li>TI TMP117 sensors feeding a temperature-based alarm system</li>
+          <li>Modeled thermo-mechanical stress and mixed-lubrication conditions</li>
+          <li>25% measurable reliability improvement (DFG / RWTH IMSE)</li>
+        </ul>
+        <div class="p-tags"><span class="p-tag">FEM</span><span class="p-tag">Tribology</span><span class="p-tag">Sensors</span></div>
       </div>
-      <div class="card">
-        <div class="metric">DIN</div>
+    </div>
+
+    <div class="project">
+      <div class="p-media" data-folder="images/pyrolysis">
+        <div class="p-main"><img src="images/pyrolysis/01.jpg" alt="Pyrolysis reactor prototype" /></div>
+        <div class="p-thumbs"></div>
+      </div>
+      <div class="p-body">
+        <div class="p-metric">DIN</div>
         <h3>Pyrolysis Reactor Prototype</h3>
-        <p>Scalable reactor validated against DIN EN 13445 &amp; 13480 with SolidWorks CFD/FEA and Python thermodynamic modeling.</p>
-        <span class="card-tag">SolidWorks · Python · Standards</span>
+        <p>For an early-stage cleantech startup, I developed a pyrolysis reactor from thermodynamic first principles through to a manufacturable design validated against European engineering standards.</p>
+        <ul class="p-detail">
+          <li>Python modeling of thermodynamics and syngas energy yields</li>
+          <li>SolidWorks CFD/FEA for fluidic, thermal, and structural evaluation</li>
+          <li>Validated to DIN EN 13445, DIN EN 13480, and explosion-safety protocols</li>
+        </ul>
+        <div class="p-tags"><span class="p-tag">SolidWorks</span><span class="p-tag">Python</span><span class="p-tag">Standards</span></div>
       </div>
     </div>
   </div>
@@ -430,7 +500,7 @@
       <a class="link-row" href="https://linkedin.com/in/asingh106" target="_blank" rel="noopener">
         <span class="label">LinkedIn</span><span class="val">/in/asingh106 →</span>
       </a>
-      <a class="link-row" href="https://github.com/asx712-per" target="_blank" rel="noopener">
+      <a class="link-row" href="https://github.com/your-username" target="_blank" rel="noopener">
         <span class="label">GitHub</span><span class="val">add your username →</span>
       </a>
       <a class="link-row" href="Ansh_Singh_CV.pdf" download>
@@ -446,6 +516,90 @@
     <span class="mono">Berlin, DE · Built for clarity.</span>
   </div>
 </footer>
+
+<script>
+/* ------------------------------------------------------------------
+   AUTO GALLERY
+   Each project reads its own folder (data-folder) and shows every
+   image inside it — any filename, any order. No renaming needed.
+
+   How it works: the site is hosted on GitHub, so it asks the GitHub
+   API which files live in each folder, then builds the gallery.
+
+   You normally DON'T need to touch CONFIG — it detects your repo from
+   the URL automatically. Only fill it in if detection ever fails.
+------------------------------------------------------------------- */
+var CONFIG = {
+  owner:  "",   // e.g. "asx712-per"  (leave blank to auto-detect)
+  repo:   "",   // e.g. "asx712-per.github.io"
+  branch: "main"
+};
+
+(function(){
+  var IMG_RE = /\.(jpe?g|png|gif|webp|avif|svg)$/i;
+
+  // Work out owner/repo from the GitHub Pages URL if not set manually.
+  var owner = CONFIG.owner, repo = CONFIG.repo, branch = CONFIG.branch || "main";
+  var host = location.hostname; // e.g. asx712-per.github.io
+  if(!owner && /\.github\.io$/i.test(host)) owner = host.split(".")[0];
+  if(!repo && /\.github\.io$/i.test(host)){
+    var dirs = location.pathname.split("/").filter(function(p){ return p && !/\.html?$/i.test(p); });
+    repo = dirs.length ? dirs[0] : host;   // project page → first dir; user page → host
+  }
+
+  function swap(media, btn){
+    media.querySelector(".p-main img").src = btn.querySelector("img").getAttribute("src");
+    media.querySelectorAll(".thumb").forEach(function(t){ t.classList.remove("is-active"); });
+    btn.classList.add("is-active");
+  }
+
+  function render(media, urls, alt){
+    if(!urls.length) return;                 // keep the built-in fallback image
+    var main = media.querySelector(".p-main img");
+    var thumbs = media.querySelector(".p-thumbs");
+    main.src = urls[0];
+    if(urls.length < 2){ thumbs.style.display = "none"; return; }
+    thumbs.innerHTML = "";
+    urls.forEach(function(u, i){
+      var b = document.createElement("button");
+      b.className = "thumb" + (i === 0 ? " is-active" : "");
+      var im = document.createElement("img"); im.src = u; im.alt = "";
+      b.appendChild(im);
+      b.addEventListener("click", function(){ swap(media, b); });
+      thumbs.appendChild(b);
+    });
+  }
+
+  function load(media){
+    var folder = media.getAttribute("data-folder");
+    var alt = media.querySelector(".p-main img").getAttribute("alt");
+    if(!owner || !repo){ return; }           // can't detect repo (e.g. local preview) → fallback stays
+    var cacheKey = "gallery:" + repo + ":" + folder;
+    try {
+      var cached = sessionStorage.getItem(cacheKey);
+      if(cached){ render(media, JSON.parse(cached), alt); return; }
+    } catch(e){}
+    var api = "https://api.github.com/repos/" + owner + "/" + repo +
+              "/contents/" + folder + "?ref=" + branch;
+    fetch(api)
+      .then(function(r){ return r.ok ? r.json() : []; })
+      .then(function(items){
+        if(!Array.isArray(items)) return;
+        var urls = items
+          .filter(function(it){ return it.type === "file" && IMG_RE.test(it.name); })
+          .sort(function(a,b){ return a.name.localeCompare(b.name, undefined, {numeric:true}); })
+          .map(function(it){ return it.download_url; });
+        if(urls.length){
+          try { sessionStorage.setItem(cacheKey, JSON.stringify(urls)); } catch(e){}
+          render(media, urls, alt);
+        }
+      })
+      .catch(function(){ /* network/local: fallback image stays */ });
+  }
+
+  document.querySelectorAll(".p-media").forEach(load);
+})();
+</script>
 
 </body>
 </html>
