@@ -117,19 +117,23 @@
   .project .p-media{display:flex;flex-direction:column;gap:10px;}
   /* whole image shown (no crop); light frame absorbs varied aspect ratios */
   .project .p-main{position:relative;overflow:hidden;border:1px solid var(--line-strong);background:#fafafa;aspect-ratio:16/10;}
-  .project .p-main img{
+  .project .p-main img, .project .p-main video{
     width:100%;height:100%;object-fit:contain;display:block;
     filter:grayscale(100%) contrast(1.02);transition:filter .4s;
   }
-  .project:hover .p-main img{filter:grayscale(0%);}
+  .project:hover .p-main img, .project:hover .p-main video{filter:grayscale(0%);}
   .p-thumbs{display:flex;flex-wrap:wrap;gap:8px;}
   .p-thumbs .thumb{
-    width:70px;height:52px;flex:0 0 auto;border:1px solid var(--line);background:#fafafa;padding:0;
+    width:70px;height:52px;flex:0 0 auto;position:relative;border:1px solid var(--line);background:#fafafa;padding:0;
     cursor:pointer;overflow:hidden;transition:border-color .2s;
   }
-  .p-thumbs .thumb img{width:100%;height:100%;object-fit:contain;filter:grayscale(100%);transition:filter .3s;}
-  .p-thumbs .thumb:hover img{filter:grayscale(0%);}
+  .p-thumbs .thumb img, .p-thumbs .thumb video{width:100%;height:100%;object-fit:contain;filter:grayscale(100%);transition:filter .3s;}
+  .p-thumbs .thumb:hover img, .p-thumbs .thumb:hover video{filter:grayscale(0%);}
   .p-thumbs .thumb.is-active{border-color:var(--line-strong);border-width:2px;}
+  .p-thumbs .thumb.is-video::after{
+    content:"\25B6";position:absolute;right:4px;bottom:2px;font-size:10px;color:#111;
+    background:rgba(255,255,255,.85);border:1px solid #111;border-radius:2px;padding:0 3px;line-height:1.4;
+  }
   .project .p-metric{font-size:54px;font-weight:600;letter-spacing:-.03em;line-height:1;}
   .project h3{font-size:24px;font-weight:600;letter-spacing:-.01em;margin:8px 0 16px;}
   .project p{color:#333;font-size:16px;max-width:46ch;}
@@ -502,8 +506,8 @@
       <a class="link-row" href="https://linkedin.com/in/asingh106" target="_blank" rel="noopener">
         <span class="label">LinkedIn</span><span class="val">/in/asingh106 →</span>
       </a>
-      <a class="link-row" href="https://github.com/your-username" target="_blank" rel="noopener">
-        <span class="label">GitHub</span><span class="val">asx712-per →</span>
+      <a class="link-row" href="https://github.com/asx712-per" target="_blank" rel="noopener">
+        <span class="label">GitHub</span><span class="val">/asx712-per →</span>
       </a>
       <a class="link-row" href="Ansh_Singh_CV.pdf" download>
         <span class="label">Download CV</span><span class="val">PDF ↓</span>
@@ -532,13 +536,14 @@
    the URL automatically. Only fill it in if detection ever fails.
 ------------------------------------------------------------------- */
 var CONFIG = {
-  owner:  "",   // e.g. "asx712-per"  (leave blank to auto-detect)
-  repo:   "",   // e.g. "asx712-per.github.io"
+  owner:  "asx712-per",   // GitHub username
+  repo:   "",             // leave blank to auto-detect from the URL
   branch: "main"
 };
 
 (function(){
   var IMG_RE = /\.(jpe?g|png|gif|webp|avif|svg)$/i;
+  var VID_RE = /\.(mp4|webm|mov|m4v|ogg)$/i;
 
   // Work out owner/repo from the GitHub Pages URL if not set manually.
   var owner = CONFIG.owner, repo = CONFIG.repo, branch = CONFIG.branch || "main";
@@ -549,52 +554,70 @@ var CONFIG = {
     repo = dirs.length ? dirs[0] : host;   // project page → first dir; user page → host
   }
 
-  function swap(media, btn){
-    media.querySelector(".p-main img").src = btn.querySelector("img").getAttribute("src");
-    media.querySelectorAll(".thumb").forEach(function(t){ t.classList.remove("is-active"); });
-    btn.classList.add("is-active");
+  function kind(name){ return VID_RE.test(name) ? "video" : (IMG_RE.test(name) ? "image" : null); }
+
+  // Build an <img> or looping muted <video>. onFail removes broken media.
+  function makeMedia(item, alt, isThumb, onFail){
+    var el;
+    if(item.type === "video"){
+      el = document.createElement("video");
+      el.src = item.url; el.loop = true; el.muted = true; el.defaultMuted = true;
+      el.playsInline = true; el.setAttribute("muted",""); el.setAttribute("playsinline","");
+      el.controls = false;
+      if(isThumb){ el.preload = "metadata"; }
+      else { el.autoplay = true; el.setAttribute("autoplay",""); }
+    } else {
+      el = document.createElement("img");
+      el.src = item.url; el.alt = alt || "";
+    }
+    el.addEventListener("error", function(){ if(onFail) onFail(); });
+    return el;
   }
 
-  function render(media, urls, alt){
-    if(!urls.length) return;                 // keep the built-in fallback image
-    var main = media.querySelector(".p-main img");
+  function setMain(mainEl, item, alt){
+    mainEl.innerHTML = "";
+    var el = makeMedia(item, alt, false, function(){ mainEl.innerHTML = ""; });
+    mainEl.appendChild(el);
+    if(item.type === "video" && el.play){ el.play().catch(function(){}); }
+  }
+
+  function render(media, items, alt){
+    if(!items.length) return;                // nothing valid → keep built-in fallback
+    var mainEl = media.querySelector(".p-main");
     var thumbs = media.querySelector(".p-thumbs");
-    main.src = urls[0];
-    if(urls.length < 2){ thumbs.style.display = "none"; return; }
+    setMain(mainEl, items[0], alt);
+    if(items.length < 2){ thumbs.style.display = "none"; return; }
+    thumbs.style.display = "";
     thumbs.innerHTML = "";
-    urls.forEach(function(u, i){
+    items.forEach(function(item, i){
       var b = document.createElement("button");
-      b.className = "thumb" + (i === 0 ? " is-active" : "");
-      var im = document.createElement("img"); im.src = u; im.alt = "";
-      b.appendChild(im);
-      b.addEventListener("click", function(){ swap(media, b); });
+      b.className = "thumb" + (i === 0 ? " is-active" : "") + (item.type === "video" ? " is-video" : "");
+      b.appendChild(makeMedia(item, "", true, function(){ b.remove(); }));
+      b.addEventListener("click", function(){
+        setMain(mainEl, item, alt);
+        thumbs.querySelectorAll(".thumb").forEach(function(t){ t.classList.remove("is-active"); });
+        b.classList.add("is-active");
+      });
       thumbs.appendChild(b);
     });
   }
 
   function load(media){
     var folder = media.getAttribute("data-folder");
-    var alt = media.querySelector(".p-main img").getAttribute("alt");
+    var fb = media.querySelector(".p-main img");
+    var alt = fb ? fb.getAttribute("alt") : "";
     if(!owner || !repo){ return; }           // can't detect repo (e.g. local preview) → fallback stays
-    var cacheKey = "gallery:" + repo + ":" + folder;
-    try {
-      var cached = sessionStorage.getItem(cacheKey);
-      if(cached){ render(media, JSON.parse(cached), alt); return; }
-    } catch(e){}
     var api = "https://api.github.com/repos/" + owner + "/" + repo +
               "/contents/" + folder + "?ref=" + branch;
     fetch(api)
       .then(function(r){ return r.ok ? r.json() : []; })
-      .then(function(items){
-        if(!Array.isArray(items)) return;
-        var urls = items
-          .filter(function(it){ return it.type === "file" && IMG_RE.test(it.name); })
+      .then(function(list){
+        if(!Array.isArray(list)) return;
+        var items = list
+          .filter(function(it){ return it.type === "file" && kind(it.name); })
           .sort(function(a,b){ return a.name.localeCompare(b.name, undefined, {numeric:true}); })
-          .map(function(it){ return it.download_url; });
-        if(urls.length){
-          try { sessionStorage.setItem(cacheKey, JSON.stringify(urls)); } catch(e){}
-          render(media, urls, alt);
-        }
+          .map(function(it){ return { url: it.download_url, type: kind(it.name) }; });
+        if(items.length) render(media, items, alt);
       })
       .catch(function(){ /* network/local: fallback image stays */ });
   }

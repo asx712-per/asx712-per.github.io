@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="'JetBrains Mono','DejaVu Sans Mono',monospace">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111"/>
+    </marker>
+    <pattern id="water" width="46" height="26" patternUnits="userSpaceOnUse">
+      <path d="M0,13 q11.5,-11 23,0 q11.5,11 23,0" fill="none" stroke="#111" stroke-width="1.4" opacity="0.55"/>
+    </pattern>
+    <pattern id="ground" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+      <path d="M0,0 L26,26 M-6,20 L6,32 M20,-6 L32,6" stroke="#111" stroke-width="0.9" opacity="0.35"/>
+    </pattern>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="900" fill="#ffffff"/>
+
+  <!-- title -->
+  <text x="60" y="66" font-size="26" font-weight="600" fill="#111" letter-spacing="1">GEOTHERMAL DATA-CENTRE COOLING</text>
+  <text x="60" y="94" font-size="15" fill="#555" letter-spacing="1">CLOSED-LOOP SYSTEM OVERVIEW · PLATE HEAT EXCHANGER · SUB-SURFACE RESERVOIR</text>
+  <line x1="60" y1="112" x2="1140" y2="112" stroke="#111" stroke-width="1.5"/>
+
+  <!-- legend -->
+  <line x1="770" y1="150" x2="820" y2="150" stroke="#111" stroke-width="4"/>
+  <text x="830" y="155" font-size="14" fill="#111">Data-centre coolant loop</text>
+  <line x1="770" y1="176" x2="820" y2="176" stroke="#111" stroke-width="4" stroke-dasharray="10 7"/>
+  <text x="830" y="181" font-size="14" fill="#111">Geothermal water loop</text>
+
+  <!-- ground surface -->
+  <rect x="60" y="560" width="1080" height="300" fill="url(#ground)"/>
+  <line x1="60" y1="560" x2="1140" y2="560" stroke="#111" stroke-width="2.5"/>
+  <text x="1052" y="582" font-size="13" fill="#555">GRADE</text>
+
+  <!-- ===================== DATA CENTRE ===================== -->
+  <rect x="90" y="180" width="410" height="330" fill="none" stroke="#111" stroke-width="2.5"/>
+  <text x="110" y="212" font-size="18" font-weight="600" fill="#111">DATA CENTRE</text>
+  <!-- racks -->
+  <g stroke="#111" stroke-width="2" fill="none">
+    <rect x="118" y="300" width="70" height="180"/>
+    <rect x="204" y="300" width="70" height="180"/>
+    <rect x="290" y="300" width="70" height="180"/>
+  </g>
+  <g stroke="#111" stroke-width="1" opacity="0.5">
+    <line x1="118" y1="330" x2="188" y2="330"/><line x1="118" y1="360" x2="188" y2="360"/><line x1="118" y1="390" x2="188" y2="390"/><line x1="118" y1="420" x2="188" y2="420"/><line x1="118" y1="450" x2="188" y2="450"/>
+    <line x1="204" y1="330" x2="274" y2="330"/><line x1="204" y1="360" x2="274" y2="360"/><line x1="204" y1="390" x2="274" y2="390"/><line x1="204" y1="420" x2="274" y2="420"/><line x1="204" y1="450" x2="274" y2="450"/>
+    <line x1="290" y1="330" x2="360" y2="330"/><line x1="290" y1="360" x2="360" y2="360"/><line x1="290" y1="390" x2="360" y2="390"/><line x1="290" y1="420" x2="360" y2="420"/><line x1="290" y1="450" x2="360" y2="450"/>
+  </g>
+  <text x="118" y="498" font-size="12" fill="#555">SERVER RACKS · IT HEAT LOAD</text>
+  <!-- CRAH unit -->
+  <rect x="392" y="300" width="82" height="180" fill="none" stroke="#111" stroke-width="2"/>
+  <text x="433" y="396" font-size="14" fill="#111" text-anchor="middle" transform="rotate(-90 433 396)">CRAH COIL</text>
+
+  <!-- ===================== HEAT EXCHANGER ===================== -->
+  <rect x="640" y="300" width="200" height="210" fill="none" stroke="#111" stroke-width="2.5"/>
+  <text x="740" y="286" font-size="16" font-weight="600" fill="#111" text-anchor="middle">PLATE HEAT EXCHANGER</text>
+  <!-- counterflow plates -->
+  <g stroke="#111" stroke-width="2" fill="none">
+    <path d="M660,330 L820,330 L660,360 L820,360 L660,390 L820,390 L660,420 L820,420 L660,450 L820,450 L660,480 L820,480"/>
+  </g>
+
+  <!-- ===================== DATA-CENTRE LOOP (solid) ===================== -->
+  <!-- warm return DC -> HX (top) -->
+  <path d="M474,345 L640,345" fill="none" stroke="#111" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="500" y="333" font-size="13" fill="#111">warm return  ≈30 °C</text>
+  <!-- cool supply HX -> DC (bottom) -->
+  <path d="M640,465 L474,465" fill="none" stroke="#111" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="500" y="487" font-size="13" fill="#111">cool supply  ≈18 °C</text>
+  <!-- pump on supply -->
+  <circle cx="557" cy="465" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="557" y="470" font-size="14" fill="#111" text-anchor="middle">P</text>
+
+  <!-- ===================== GEOTHERMAL LOOP (dashed) ===================== -->
+  <!-- cold up from reservoir -> HX -->
+  <path d="M700,720 L700,510" fill="none" stroke="#111" stroke-width="4" stroke-dasharray="10 7" marker-end="url(#arrow)"/>
+  <text x="590" y="640" font-size="13" fill="#111" text-anchor="end">cold  ≈12 °C</text>
+  <!-- warm down HX -> reservoir -->
+  <path d="M780,510 L780,700" fill="none" stroke="#111" stroke-width="4" stroke-dasharray="10 7" marker-end="url(#arrow)"/>
+  <text x="892" y="640" font-size="13" fill="#111">return  ≈22 °C</text>
+  <!-- pump on cold riser -->
+  <circle cx="700" cy="600" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+  <text x="700" y="605" font-size="14" fill="#111" text-anchor="middle">P</text>
+
+  <!-- ===================== WATER RESERVOIR ===================== -->
+  <rect x="150" y="700" width="900" height="150" rx="10" fill="url(#water)" stroke="#111" stroke-width="2.5"/>
+  <rect x="150" y="700" width="900" height="150" rx="10" fill="none" stroke="#111" stroke-width="2.5"/>
+  <text x="170" y="732" font-size="17" font-weight="600" fill="#111">SUB-SURFACE WATER RESERVOIR / AQUIFER</text>
+  <text x="170" y="756" font-size="13" fill="#333">stable ground-water heat sink  ·  ≈10–15 °C year-round</text>
+  <!-- intake screen -->
+  <path d="M700,720 L700,820" stroke="#111" stroke-width="4" stroke-dasharray="10 7"/>
+  <g stroke="#111" stroke-width="2"><line x1="690" y1="800" x2="710" y2="800"/><line x1="690" y1="812" x2="710" y2="812"/></g>
+  <text x="700" y="842" font-size="12" fill="#333" text-anchor="middle">INTAKE</text>
+  <!-- return outlet -->
+  <path d="M780,700 L780,790" stroke="#111" stroke-width="4" stroke-dasharray="10 7"/>
+  <text x="780" y="842" font-size="12" fill="#333" text-anchor="middle">RETURN</text>
+</svg>
