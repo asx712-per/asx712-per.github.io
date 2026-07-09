@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ansh Singh — Mechanical & Systems Engineer</title>
+<meta name="description" content="Ansh Singh — Mechanical & Systems Engineer (M.Sc., RWTH Aachen). FEA/CFD simulation, thermal systems, and machine learning for engineering." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#ffffff;
+    --ink:#0a0a0a;
+    --muted:#6b6b6b;
+    --line:#e4e4e4;
+    --line-strong:#111;
+    --max:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+
+  /* index label */
+  .idx{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;letter-spacing:.12em;
+    color:var(--muted);text-transform:uppercase;
+  }
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:64px;}
+  nav .brand{font-family:'JetBrains Mono',monospace;font-weight:500;letter-spacing:.02em;font-size:15px;}
+  nav .brand span{color:var(--muted);}
+  nav ul{list-style:none;display:flex;gap:28px;}
+  nav ul a{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);transition:color .2s;}
+  nav ul a:hover{color:var(--ink);}
+  .nav-links{display:flex;}
+  @media(max-width:640px){.nav-links{display:none;}}
+
+  /* HERO */
+  header.hero{padding:120px 0 90px;border-bottom:1px solid var(--line);}
+  .hero .kicker{margin-bottom:28px;}
+  .hero h1{
+    font-size:clamp(40px,7vw,86px);
+    line-height:1.02;font-weight:600;letter-spacing:-.03em;
+  }
+  .hero h1 em{font-style:normal;color:var(--muted);}
+  .hero .sub{
+    margin-top:28px;max-width:620px;font-size:clamp(16px,2.2vw,19px);color:#333;
+  }
+  .hero .meta{
+    margin-top:40px;display:flex;flex-wrap:wrap;gap:14px;
+  }
+  .tag{
+    font-family:'JetBrains Mono',monospace;font-size:12px;
+    border:1px solid var(--line-strong);padding:7px 12px;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .hero .cta{margin-top:44px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+  .btn{
+    font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.03em;
+    padding:13px 22px;border:1px solid var(--line-strong);
+    transition:all .2s;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn.solid{background:var(--ink);color:#fff;}
+  .btn.solid:hover{background:#fff;color:var(--ink);}
+  .btn.ghost:hover{background:var(--ink);color:#fff;}
+
+  /* SECTION */
+  section{padding:90px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;gap:16px;align-items:baseline;margin-bottom:56px;}
+  .sec-head h2{font-size:clamp(24px,3.5vw,34px);font-weight:600;letter-spacing:-.02em;}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  .about-grid p{color:#333;font-size:17px;}
+  .about-grid p + p{margin-top:18px;}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:28px;}}
+
+  /* EXPERIENCE */
+  .row{
+    display:grid;grid-template-columns:180px 1fr;gap:32px;
+    padding:30px 0;border-top:1px solid var(--line);
+  }
+  .row:hover{background:#fafafa;}
+  .row .when{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);padding-top:4px;}
+  .row .place{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-top:6px;}
+  .row h3{font-size:20px;font-weight:600;letter-spacing:-.01em;}
+  .row .org{color:#333;font-weight:500;margin-top:2px;}
+  .row ul{margin-top:14px;padding-left:18px;color:#444;font-size:15.5px;}
+  .row ul li{margin-bottom:6px;}
+  @media(max-width:640px){.row{grid-template-columns:1fr;gap:10px;}}
+
+  /* PROJECTS */
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);}
+  .card{background:#fff;padding:34px;transition:background .2s;}
+  .card:hover{background:#0a0a0a;color:#fff;}
+  .card:hover .metric,.card:hover .card-tag{color:#fff;border-color:#fff;}
+  .card:hover p{color:#cfcfcf;}
+  .metric{font-size:44px;font-weight:600;letter-spacing:-.03em;line-height:1;}
+  .card h3{font-size:18px;font-weight:600;margin:14px 0 10px;}
+  .card p{color:#555;font-size:15px;}
+  .card-tag{display:inline-block;margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-strong);padding:5px 9px;color:var(--muted);}
+  @media(max-width:640px){.cards{grid-template-columns:1fr;}}
+
+  /* SKILLS */
+  .skill-block{padding:26px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:220px 1fr;gap:32px;}
+  .skill-block h3{font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);padding-top:4px;}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;}
+  .chip{font-size:13.5px;border:1px solid var(--line);padding:6px 12px;transition:all .18s;}
+  .chip:hover{border-color:var(--line-strong);background:var(--ink);color:#fff;}
+  @media(max-width:640px){.skill-block{grid-template-columns:1fr;gap:12px;}}
+
+  /* EDUCATION */
+  .edu{display:grid;grid-template-columns:180px 1fr;gap:32px;padding:26px 0;border-top:1px solid var(--line);}
+  .edu .when{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+  .edu h3{font-size:19px;font-weight:600;}
+  .edu .deg{color:#333;margin-top:2px;}
+  .edu p{color:#555;font-size:15px;margin-top:10px;max-width:640px;}
+  @media(max-width:640px){.edu{grid-template-columns:1fr;gap:8px;}}
+
+  /* CONTACT */
+  #contact{border-bottom:none;}
+  #contact h2{font-size:clamp(30px,6vw,64px);font-weight:600;letter-spacing:-.03em;margin-bottom:12px;}
+  #contact .lead{color:#444;max-width:560px;font-size:18px;margin-bottom:44px;}
+  .links{border-top:1px solid var(--line-strong);}
+  .link-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:24px 4px;border-bottom:1px solid var(--line);
+    transition:padding .2s,background .2s;
+  }
+  .link-row:hover{padding-left:16px;background:#fafafa;}
+  .link-row .label{font-size:20px;font-weight:500;}
+  .link-row .val{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);}
+  @media(max-width:640px){.link-row .val{display:none;}}
+
+  footer{padding:40px 0;}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  footer .mono{font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">AS<span>_</span>Singh</div>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#experience">experience</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="idx kicker">Berlin, DE · Mechanical &amp; Systems Engineer</div>
+    <h1>Ansh Singh<br><em>Engineering × Machine Learning.</em></h1>
+    <p class="sub">M.Sc. Mechanical Engineering, RWTH Aachen. I design and validate thermal and mechanical systems with FEA/CFD — and build the machine-learning models that make simulation faster.</p>
+    <div class="meta">
+      <span class="tag">FEA / CFD</span>
+      <span class="tag">Thermal Systems</span>
+      <span class="tag">Surrogate Modeling</span>
+      <span class="tag">GNN / PyTorch</span>
+    </div>
+    <div class="cta">
+      <a class="btn solid" href="#projects">View work →</a>
+      <a class="btn ghost" href="Ansh_Singh_CV.pdf" download>Download CV ↓</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">01</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm a mechanical and systems engineer working at the intersection of physical simulation and machine learning. My core is thermal system design, FEA/CFD, and DIN/ISO-compliant prototype development.</p>
+        <p>My differentiator is what sits on top: I build ML surrogate models — including graph neural networks — that reproduce simulation results at a fraction of the compute, so design teams iterate in minutes instead of days.</p>
+      </div>
+      <div>
+        <p>Recent work spans a pyrolysis-reactor prototype validated against European pressure-vessel and piping standards, a predictive risk-factor framework for journal bearings, and a geothermal data-center cooling concept that cut energy use by 40%.</p>
+        <p>Native English speaker, based in Berlin, currently improving my German. Open to simulation, ML-for-engineering, and mechanical R&D roles across the EU and remote.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">02</span><h2>Experience</h2></div>
+
+    <div class="row">
+      <div class="when">2025 — Present<div class="place">Berlin, DE</div></div>
+      <div>
+        <h3>AI Product Manager — Process Automation</h3>
+        <div class="org">Kyaani GmbH</div>
+        <ul>
+          <li>Directed end-to-end development of full-stack AI engineering systems (React/TypeScript, Python/FastAPI), turning client requirements into agentic workflow automation.</li>
+          <li>Architected AI assistants for computational-mechanics pipelines — automated task routing, root-cause analysis (DMAIC), and CAD/FEM framework generation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="when">2026<div class="place">Berlin, DE</div></div>
+      <div>
+        <h3>Systems / Design Engineer — Pyrolysis Reactor</h3>
+        <div class="org">Wempyre (Start-up)</div>
+        <ul>
+          <li>Built Python data pipelines (NumPy/Pandas) simulating thermodynamics and syngas energy yields to optimize reactor efficiency.</li>
+          <li>Ran fluidic, thermal, and structural evaluations in SolidWorks CFD/FEA to define boundary conditions and a scalable prototype model.</li>
+          <li>Validated reactor geometry against DIN EN 13445 (pressure vessels), DIN EN 13480 (piping), and explosion-safety protocols.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="when">2023 — 2025<div class="place">Aachen, DE</div></div>
+      <div>
+        <h3>Master &amp; Mini-Thesis — Journal Bearing Reliability</h3>
+        <div class="org">DFG with RWTH Aachen — IMSE</div>
+        <ul>
+          <li>Ran FEM-based nodal thermal and multi-body simulations of long-term bearing reliability, integrating TI TMP117 telemetry into a temperature-based alarm system.</li>
+          <li>Developed a predictive risk-factor framework for thermo-mechanical and mixed-lubrication conditions — 25% measurable reliability improvement.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="when">2024 — 2025<div class="place">Aachen, DE</div></div>
+      <div>
+        <h3>Systems Engineer — GNN Surrogate Model</h3>
+        <div class="org">RWTH Aachen</div>
+        <ul>
+          <li>Engineered a Graph Neural Network surrogate (PyTorch/DGL) predicting structural displacements in porous media — cut FEM runtime 50% with near-zero accuracy loss.</li>
+          <li>Built automated pipelines processing large polyurethane-foam FEM datasets under dynamic loading, embedding ML in computational-mechanics workflows.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="when">2019 — 2020<div class="place">Chicago, IL</div></div>
+      <div>
+        <h3>Lead Systems Designer — Geothermal Data-Center Cooling</h3>
+        <div class="org">Illinois Tech (contractor for Randstad Engineering)</div>
+        <ul>
+          <li>Designed a full geothermal cooling schematic for large-scale data centers with complete thermal and economic analysis.</li>
+          <li>Delivered a grid-independent green cooling solution: 40% lower energy use vs. conventional CRAC, 25% lower prototype deployment cost.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="when">2018<div class="place">Chicago, IL</div></div>
+      <div>
+        <h3>Systems Engineer — Cryo-Chamber System</h3>
+        <div class="org">Illinois Tech (with Fermilab)</div>
+        <ul>
+          <li>Designed a high-precision detection apparatus for sub-atomic particle measurement, integrating mechanical, optical, and thermal systems to strict tolerances.</li>
+          <li>Resolved thermal instability via a superfluid liquid-helium pumping system at near-vacuum pressures, stabilizing laser spectrometers.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">03</span><h2>Selected Work</h2></div>
+    <div class="cards">
+      <div class="card">
+        <div class="metric">50%</div>
+        <h3>GNN Surrogate for FEM</h3>
+        <p>Graph neural network in PyTorch/DGL predicting structural displacements in porous media — halved simulation runtime with near-zero accuracy loss.</p>
+        <span class="card-tag">PyTorch · DGL · FEM</span>
+      </div>
+      <div class="card">
+        <div class="metric">40%</div>
+        <h3>Geothermal Data-Center Cooling</h3>
+        <p>Grid-independent green cooling schematic for large-scale data centers — 40% lower energy consumption than conventional CRAC systems.</p>
+        <span class="card-tag">Thermal · CFD · Energy</span>
+      </div>
+      <div class="card">
+        <div class="metric">25%</div>
+        <h3>Journal Bearing Risk Framework</h3>
+        <p>Predictive risk-factor model under thermo-mechanical stress and mixed lubrication, with live TMP117 telemetry — 25% reliability gain.</p>
+        <span class="card-tag">FEM · Tribology · Sensors</span>
+      </div>
+      <div class="card">
+        <div class="metric">DIN</div>
+        <h3>Pyrolysis Reactor Prototype</h3>
+        <p>Scalable reactor validated against DIN EN 13445 &amp; 13480 with SolidWorks CFD/FEA and Python thermodynamic modeling.</p>
+        <span class="card-tag">SolidWorks · Python · Standards</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">04</span><h2>Skills &amp; Tools</h2></div>
+
+    <div class="skill-block">
+      <h3>Simulation &amp; CAE</h3>
+      <div class="chips">
+        <span class="chip">Finite Element Analysis (FEA)</span>
+        <span class="chip">CFD</span>
+        <span class="chip">Thermal Analysis</span>
+        <span class="chip">ANSYS</span>
+        <span class="chip">Abaqus</span>
+        <span class="chip">COMSOL</span>
+        <span class="chip">SolidWorks</span>
+        <span class="chip">Siemens NX</span>
+        <span class="chip">CATIA V5</span>
+        <span class="chip">Simulink</span>
+        <span class="chip">AVL Excite</span>
+        <span class="chip">Tribology</span>
+        <span class="chip">Fluid Dynamics</span>
+        <span class="chip">Predictive Maintenance</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Machine Learning</h3>
+      <div class="chips">
+        <span class="chip">PyTorch</span>
+        <span class="chip">TensorFlow</span>
+        <span class="chip">DGL</span>
+        <span class="chip">Graph Neural Networks</span>
+        <span class="chip">Surrogate Modeling</span>
+        <span class="chip">Neural Networks</span>
+        <span class="chip">RAG</span>
+        <span class="chip">LangChain</span>
+        <span class="chip">NumPy</span>
+        <span class="chip">Pandas</span>
+        <span class="chip">ParaView</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Programming</h3>
+      <div class="chips">
+        <span class="chip">Python</span>
+        <span class="chip">C++</span>
+        <span class="chip">Java</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">MATLAB</span>
+        <span class="chip">React / TypeScript</span>
+        <span class="chip">FastAPI</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Process &amp; PM</h3>
+      <div class="chips">
+        <span class="chip">Agile / Lean</span>
+        <span class="chip">Six Sigma</span>
+        <span class="chip">DMAIC</span>
+        <span class="chip">FMEA</span>
+        <span class="chip">RCA</span>
+        <span class="chip">Jira</span>
+        <span class="chip">SAP</span>
+        <span class="chip">WBS / Gantt</span>
+      </div>
+    </div>
+
+    <div class="skill-block">
+      <h3>Languages</h3>
+      <div class="chips">
+        <span class="chip">English — Native</span>
+        <span class="chip">Hindi — Fluent</span>
+        <span class="chip">German — Intermediate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">05</span><h2>Education</h2></div>
+    <div class="edu">
+      <div class="when">2022 — 2025</div>
+      <div>
+        <h3>RWTH Aachen</h3>
+        <div class="deg">M.Sc. Mechanical Engineering — Design / Conception of Machines</div>
+        <p>Specialized in machine conception using finite element methods, with emphasis on neural networks and machine-learning algorithms for faster computation.</p>
+      </div>
+    </div>
+    <div class="edu">
+      <div class="when">2017 — 2019</div>
+      <div>
+        <h3>Illinois Institute of Technology</h3>
+        <div class="deg">B.Sc. Mechanical Engineering</div>
+        <p>Research in cryo-engineering and experimental design, focused on finite element analysis, predictive maintenance, and failure analysis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="idx">06</span><h2 style="font-size:clamp(24px,3.5vw,34px)">Contact</h2></div>
+    <h2>Let's build something.</h2>
+    <p class="lead">Open to simulation, ML-for-engineering, and mechanical R&D roles across the EU and remote. Reach out — I usually reply within a day.</p>
+    <div class="links">
+      <a class="link-row" href="mailto:ansh.singh@rwth-aachen.de">
+        <span class="label">Email</span><span class="val">ansh.singh@rwth-aachen.de →</span>
+      </a>
+      <a class="link-row" href="https://linkedin.com/in/asingh106" target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span><span class="val">/in/asingh106 →</span>
+      </a>
+      <a class="link-row" href="https://github.com/your-username" target="_blank" rel="noopener">
+        <span class="label">GitHub</span><span class="val">add your username →</span>
+      </a>
+      <a class="link-row" href="Ansh_Singh_CV.pdf" download>
+        <span class="label">Download CV</span><span class="val">PDF ↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="mono">© 2026 Ansh Singh</span>
+    <span class="mono">Berlin, DE · Built for clarity.</span>
+  </div>
+</footer>
+
+</body>
+</html>
